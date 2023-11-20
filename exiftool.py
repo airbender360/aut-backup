@@ -19,7 +19,9 @@ def obtener_metadatos_subprocess(files, etiquetas):
     return metadata_list
 
 # Ejemplo de uso.
-archivos = [r"\ubicación\archivo1.mp4", r"\ubicación\archivo2.mp4"]
+archivos = [r"C:\Users\USUARIO\Documents\prueba\video1.mp4", r"C:\Users\USUARIO\Documents\prueba\video2.mp4",r"C:\Users\USUARIO\Documents\prueba\video3.mp4"]
 etiquetas_deseadas = ['FileName', 'Duration', 'FileSize', 'ImageHeight', 'FileTypeExtension', 'FileCreateDate']
 # El método recibe 2 listas, una con las ubicaciones de los archivos y otra con las etiquetas a extraer de exiftool.
 salida_exiftool = obtener_metadatos_subprocess(archivos, etiquetas_deseadas)
+
+print(salida_exiftool)
