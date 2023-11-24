@@ -12,7 +12,8 @@ class Script:
         videos = playlist.videos  #debug en linea 13 y revisar elementos
         folder = Folder(self.rutaCarpeta)
         metadatos = folder.metadatos  #debug en linea 15 y revisar metadatos
-        for nombreVideo, tiempoVideo in videos:
+        
+        for nombreVideo, tiempoVideo in videos.items():
             for registro in metadatos:
                 if registro['FileName'] == nombreVideo:
                     registro['YouTubeName'] = nombreVideo
