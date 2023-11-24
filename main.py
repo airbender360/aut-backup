@@ -5,8 +5,8 @@ linkPlaylist = r"https://www.youtube.com/watch?v=dWxbX827Klc&list=PLAKTtN7vEpniX
 rutaCarpeta = r'C:\Users\063\Desktop\videos\hegel'
 
 playlist = Playlist(linkPlaylist)
-nombres = playlist.nombresVideos
-for nombre in nombres:
+nombres = playlist.videos
+for nombre in nombres:  #debug
     print(nombre)
 #script = Script(linkPlaylist, rutaCarpeta)
 #registro = script.webEnMetadata()

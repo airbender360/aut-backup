@@ -18,26 +18,16 @@ class YoutubeApiGet:
         playlistName = respuesta['items'][0]['snippet']['title']
         return playlistName
     
-    def obtenerFechasDeSubida(self):
+    def obtenerDatosVideos(self):
         fechasDeSubida = []
+        nombresVideos = []
         respuesta = youtube.playlistItems().list(
-            part='contentDetails',
+            part='contentDetails, snippet',
             playlistId=self.playlistId,
             maxResults=150
         ).execute()
         
         for elemento in respuesta['items']:
             fechasDeSubida.append(elemento['contentDetails']['videoPublishedAt'])
-        return fechasDeSubida
-    
-    def obtenerNombresVideos(self):
-        nombresVideos = []
-        respuesta = youtube.playlistItems().list(
-            part='snippet',
-            playlistId=self.playlistId,
-            maxResults=150
-        ).execute()
-
-        for elemento in respuesta['items']:
             nombresVideos.append(elemento['snippet']['title'])
-        return nombresVideos
+        return fechasDeSubida, nombresVideos

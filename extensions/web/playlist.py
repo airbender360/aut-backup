@@ -7,9 +7,8 @@ class Playlist:
         self.id = re.findall(regex, link)
         self.youtubeapiget = YoutubeApiGet(self.id[0])
         self.nombre = self.youtubeapiget.obtenerNombre()
-        self.fechasDeSubida = self.youtubeapiget.obtenerFechasDeSubida()
+        self.fechasDeSubida, self.nombresVideos = self.youtubeapiget.obtenerDatosVideos()
         self.fechasDeSubida = self.ordenarFechasDeSubida(self.fechasDeSubida)
-        self.nombresVideos = self.youtubeapiget.obtenerNombresVideos()
         self.videos = dict(zip(self.nombresVideos, self.fechasDeSubida))
         
     def ordenarFechasDeSubida(self, lista):
