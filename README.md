@@ -5,8 +5,9 @@ Bienvenido al Git del Backup del CID ✨
 
 Esta es la rama ```main``` solo cuenta con las dependencias básicas y un script para extraer los metadatos con exiftool.
 
-*Rama `api` - youtube api (para hacer fetch a datos de los videos)
-*Rama `excel` - openpyxl (para agregar los metadatos a excel)
+*Rama ```api``` - youtube api (para hacer fetch a datos de los videos)
+
+*Rama ```excel``` - openpyxl (para agregar los metadatos a excel)
 
 - Instrucciones en construcción 🛠
 
