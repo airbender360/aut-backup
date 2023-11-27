@@ -9,15 +9,11 @@ class Script:
         
     def webEnMetadata(self):
         playlist = Playlist(self.link)
-        videos = playlist.videos  #debug en linea 13 y revisar elementos
+        videos = playlist.videos
         folder = Folder(self.rutaCarpeta)
-        metadatos = folder.metadatos  #debug en linea 15 y revisar metadatos
+        metadatos = folder.metadatos 
         
-        for nombreVideo, tiempoVideo in videos.items():
-            for registro in metadatos:
-                if registro['FileName'] == nombreVideo:
-                    registro['YouTubeName'] = nombreVideo
-                    registro['UploadDate'] = tiempoVideo
-                    break
-                
+        for indice, (nombreVideo, tiempoVideo) in enumerate(videos.items()):
+                    metadatos[indice]['YouTubeName'] = nombreVideo
+                    metadatos[indice]['UploadDate'] = tiempoVideo
         return metadatos

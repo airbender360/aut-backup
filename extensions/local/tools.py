@@ -24,5 +24,7 @@ class Tools:
         return metadata  # Como acceder a la lista? acceso = metadata[registro]['atributo']
     
     def ubicarArchivosMp4(self, ruta):
-        archivosMp4 = glob.glob(os.path.join(ruta, '*.mp4'))
+        archivos = glob.glob(os.path.join(ruta, '*.mp4'))
+        archivosMp4 = sorted(archivos, key=os.path.getctime)
+        
         return archivosMp4
