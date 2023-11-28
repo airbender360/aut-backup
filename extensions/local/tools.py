@@ -2,6 +2,7 @@ import subprocess
 import json
 import os
 import glob
+import re
 
 class Tools:
     def __init__(self):
@@ -21,6 +22,12 @@ class Tools:
         
         salidaExiftool = resultado.stdout
         metadata = json.loads(salidaExiftool)
+        regex = r'(\d{4}:\d{2}:\d{2} \d{2}:\d{2}:\d{2})([+-]\d{2}:\d{2})'
+        
+        for registro in metadata:
+            coincidencia = re.match(regex, registro['FileCreateDate'])
+            registro['FileCreateDate'] = coincidencia[1]
+            
         return metadata  # Como acceder a la lista? acceso = metadata[registro]['atributo']
     
     def ubicarArchivosMp4(self, ruta):
