@@ -9,6 +9,10 @@ Esta es la rama ```main``` solo cuenta con las dependencias básicas y un script
 
 *Rama ```excel``` - openpyxl (para agregar los metadatos a excel)
 
+*Rama ```dlp``` - yt-dlp (para integrar la descarga de las playlist al script) - Pendiente
+
+*Rama ```api2``` - youtube api / onedrive api (subida de archivos al backup) - Pendiente
+
 - Instrucciones en construcción 🛠
 
 :)
