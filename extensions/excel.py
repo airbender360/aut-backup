@@ -1,17 +1,19 @@
 import openpyxl
 
+
 class Hoja:
     def __init__(self, ruta, nombre, datos):
-        self.ruta = ruta
+        self.ruta = ruta + r'\bd.xlsx'
         self.nombre = nombre
-        self.datos = datos 
+        self.datos = datos
         self.libro = openpyxl.load_workbook(self.ruta)
         if self.nombre in self.libro.sheetnames:
-            print('La hoja ' + self.nombre + " ya existe.")
+            print('La hoja ' + self.nombre + " ya existe")
         else:
             self.hoja = self.libro.create_sheet(self.nombre)
         
     def crearRegistro(self):
+        
         self.hoja['A1'] = 'Nombre de Lista'
         self.hoja['B1'] = 'Nombre del Video'
         self.hoja['C1'] = 'Fecha de Subida (Canal Oficial)'

@@ -22,11 +22,11 @@ class Tools:
         
         salidaExiftool = resultado.stdout
         metadata = json.loads(salidaExiftool)
-        regex = r'(\d{4}:\d{2}:\d{2} \d{2}:\d{2}:\d{2})([+-]\d{2}:\d{2})'
+        regex = r'(\d+):(\d+):(\d+) (\d+):(\d+):(\d+)-\d+:\d+'
         
         for registro in metadata:
             coincidencia = re.match(regex, registro['FileCreateDate'])
-            registro['FileCreateDate'] = coincidencia[1]
+            registro['FileCreateDate'] = f'{coincidencia[3]}/{coincidencia[2]}/{coincidencia[1]} {coincidencia[4]}:{coincidencia[5]}:{coincidencia[6]}'
             
         return metadata  # Como acceder a la lista? acceso = metadata[registro]['atributo']
     
