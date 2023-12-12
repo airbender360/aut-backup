@@ -9,25 +9,19 @@ class YoutubeApiGet:
         youtube = build('youtube', 'v3', developerKey=YoutubeApiGet.apikey)
         self.playlistId = id
     
-    def obtenerNombre(self):
+    def obtenerDatosPlaylist(self):
         respuesta = youtube.playlists().list(
         part='snippet',
         id=self.playlistId
         ).execute()
-        
-        playlistName = respuesta['items'][0]['snippet']['title']
-        return playlistName
-    
-    def obtenerDatosVideos(self):
-        fechasDeSubida = []
-        nombresVideos = []
-        respuesta = youtube.playlistItems().list(
-            part='contentDetails, snippet',
+        nombrePlaylist = respuesta['items'][0]['snippet']['title']
+        datosVideos = youtube.playlistItems().list(
+            part='contentDetails,snippet',
             playlistId=self.playlistId,
-            maxResults=150
+            maxResults=120
         ).execute()
         
-        for elemento in respuesta['items']:
-            fechasDeSubida.append(elemento['contentDetails']['videoPublishedAt'])
-            nombresVideos.append(elemento['snippet']['title'])
-        return fechasDeSubida, nombresVideos
+        fechas = [elemento['contentDetails']['videoPublishedAt'] for elemento in datosVideos['items']]
+        nombres = [elemento['snippet']['title'] for elemento in datosVideos['items']]
+
+        return nombrePlaylist, fechas, nombres

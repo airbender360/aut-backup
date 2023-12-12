@@ -2,26 +2,38 @@ from extensions.web.playlist import Playlist
 from extensions.local.folder import Folder
 from extensions.excel import Hoja
 
-
 class Script:
-    def __init__(self, linkPlaylist, rutaCarpeta, rutaExcel):
+    def __init__(self, linkPlaylist, ruta, rutaExcel):
         self.linkPlaylist = linkPlaylist
-        self.rutaCarpeta = rutaCarpeta
+        self.ruta = ruta
         self.rutaExcel = rutaExcel
         
-        self.folder = Folder(self.rutaCarpeta)
         self.playlist = Playlist(self.linkPlaylist)
-        self.playlistName = self.playlist.nombre
+        self.folder = Folder(self.ruta, self.playlist.nombrePlaylist, self.linkPlaylist)
         
     def webEnMetadata(self):
         videos = self.playlist.videos
-        self.metadatos = self.folder.metadatos 
-        
-        for indice, (nombreVideo, tiempoVideo) in enumerate(videos.items()):
-                    self.metadatos[indice]['YouTubeName'] = nombreVideo
-                    self.metadatos[indice]['UploadDate'] = tiempoVideo
-        return self.metadatos
-    
+        metadatos = self.metadatos
+        try:
+            for indice, (nombreVideo, tiempoVideo) in enumerate(videos.items()):
+                        metadatos[indice]['YouTubeName'] = nombreVideo
+                        metadatos[indice]['UploadDate'] = tiempoVideo
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            print("4. Integración Exitosa (metadatos + API)")
+            self.metadatos = metadatos
+            self.rutaArchivos = dict(zip(list(videos), self.rutaArchivos))
+            
     def documentarExcel(self):
-        self.hoja = Hoja(self.rutaExcel, self.playlistName, self.metadatos)
+        self.hoja = Hoja(self.rutaExcel, self.playlist.nombrePlaylist, self.metadatos)
+        self.hoja.formatearHoja()
         self.hoja.crearRegistro()
+        
+    def main(self):
+        self.playlist.videosApiObtener()
+        self.folder.descargarVideos(self.ruta, self.linkPlaylist)
+        self.rutaArchivos, self.metadatos = self.folder.obtenerMetadatos()
+
+        self.webEnMetadata()
+        self.documentarExcel()

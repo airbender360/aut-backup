@@ -5,33 +5,47 @@ import glob
 import re
 
 class Tools:
-    def __init__(self):
-        Tools.etiquetas = ['FileName', 'Duration', 'FileSize', 'ImageHeight', 'FileTypeExtension', 'FileCreateDate']
+    etiquetas = ['FileName', 'Duration', 'FileSize', 'ImageHeight', 'FileTypeExtension', 'FileCreateDate']
+
+    def crearCarpeta(self, ruta, nombre):
+        rutaCarpeta = os.path.join(ruta, nombre)
+        os.mkdir(rutaCarpeta)
+        return rutaCarpeta
+    
+    def ubicarArchivosMp4(self, ruta):
+        rutaArchivosMp4 = glob.glob(os.path.join(ruta, '*.mp4'))
+        rutaArchivosMp4 = sorted(rutaArchivosMp4, key=os.path.getctime)
         
-    def obtenerMetadatos(self, archivos):
+        if len(rutaArchivosMp4) == 0:
+            print('Error: no se encontraron archivos .mp4 en la carpeta destino.')
+        return rutaArchivosMp4
+    
+    def exiftool(self, archivos):
         parametros = []
         ubicaciones = []
         parametros.extend('-{}'.format(etiqueta) for etiqueta in Tools.etiquetas)
         ubicaciones.extend('{}'.format(archivo) for archivo in archivos)
         comando = ["exiftool", *parametros, "-json", *ubicaciones]
-        resultado = subprocess.run(comando, capture_output=True, text=True)
+        proceso = subprocess.run(comando, capture_output=True, text=True, shell=True)
         
-        if resultado.returncode != 0:
-            print(f"Error al obtener metadatos para archivos.")
+        if proceso.returncode != 0:
+            print(f"Error: no se han podido extraer los metadatos.")
             return None
         
-        salidaExiftool = resultado.stdout
-        metadata = json.loads(salidaExiftool)
+        resultado = proceso.stdout
+        metadatos = json.loads(resultado)
+        return metadatos  # Como acceder a la lista? acceso = metadata[registro]['atributo']
+    
+    def formatearMetadatos(self, metadatos):
         regex = r'(\d+):(\d+):(\d+) (\d+):(\d+):(\d+)-\d+:\d+'
         
-        for registro in metadata:
+        for registro in metadatos:
             coincidencia = re.match(regex, registro['FileCreateDate'])
             registro['FileCreateDate'] = f'{coincidencia[3]}/{coincidencia[2]}/{coincidencia[1]} {coincidencia[4]}:{coincidencia[5]}:{coincidencia[6]}'
-            
-        return metadata  # Como acceder a la lista? acceso = metadata[registro]['atributo']
+        return metadatos
     
-    def ubicarArchivosMp4(self, ruta):
-        archivos = glob.glob(os.path.join(ruta, '*.mp4'))
-        archivosMp4 = sorted(archivos, key=os.path.getctime)
-        
-        return archivosMp4
+    def ytdlp(self, argumento):
+        comando = f'yt-dlp {argumento}'
+        proceso = subprocess.run(comando, stderr=subprocess.PIPE, text=True)
+        if proceso.returncode != 0:
+            print(f'Error: {proceso.stderr}')

@@ -1,5 +1,6 @@
 import openpyxl
-
+from copy import copy
+from openpyxl.worksheet.table import Table, TableStyleInfo
 
 class Hoja:
     def __init__(self, ruta, nombre, datos):
@@ -7,34 +8,48 @@ class Hoja:
         self.nombre = nombre
         self.datos = datos
         self.libro = openpyxl.load_workbook(self.ruta)
+        self.hojaPlantilla = openpyxl.load_workbook(ruta + r'\plantilla.xlsx').active
         if self.nombre in self.libro.sheetnames:
-            print('La hoja ' + self.nombre + " ya existe")
+            print('Error: La hoja ' + self.nombre + " ya existe")
         else:
             self.hoja = self.libro.create_sheet(self.nombre)
         
     def crearRegistro(self):
-        
-        self.hoja['A1'] = 'Nombre de Lista'
-        self.hoja['B1'] = 'Nombre del Video'
-        self.hoja['C1'] = 'Fecha de Subida (Canal Oficial)'
-        self.hoja['D1'] = 'Duración'
-        self.hoja['E1'] = 'Tamaño'
-        self.hoja['F1'] = 'Calidad'
-        self.hoja['G1'] = 'Formato'
-        self.hoja['H1'] = 'Descargado Por'
-        self.hoja['I1'] = 'Fecha Descarga (Backup)'
-        self.hoja['J1'] = 'Enlace YouTube'
-        self.hoja['K1'] = 'Enlace Drive'
-        self.hoja['L1'] = 'Nota'
-        
+        hoja = self.hoja
         for indice, registro in enumerate(self.datos):
-            self.hoja['A' + str(indice+2)] = self.nombre
-            self.hoja['B' + str(indice+2)] = registro['YouTubeName']
-            self.hoja['C' + str(indice+2)] = registro['UploadDate']
-            self.hoja['D' + str(indice+2)] = registro['Duration']
-            self.hoja['E' + str(indice+2)] = registro['FileSize']
-            self.hoja['F' + str(indice+2)] = registro['ImageHeight']
-            self.hoja['G' + str(indice+2)] = registro['FileTypeExtension']
-            self.hoja['H' + str(indice+2)] = 'Santiago Sánchez'
-            self.hoja['I' + str(indice+2)] = registro['FileCreateDate']
+            hoja['A' + str(indice+2)] = self.nombre
+            hoja['B' + str(indice+2)] = registro['YouTubeName']
+            hoja['C' + str(indice+2)] = registro['UploadDate']
+            hoja['D' + str(indice+2)] = registro['Duration']
+            hoja['E' + str(indice+2)] = registro['FileSize']
+            hoja['F' + str(indice+2)] = registro['ImageHeight']
+            hoja['G' + str(indice+2)] = registro['FileTypeExtension']
+            hoja['H' + str(indice+2)] = 'Santiago Sánchez'
+            hoja['I' + str(indice+2)] = registro['FileCreateDate']
+            
         self.libro.save(self.ruta)
+        self.hoja = hoja
+        
+    def formatearHoja(self):
+        self.copiarCeldas(self.hojaPlantilla, self.hoja) 
+        self.crearTabla(self.hojaPlantilla, self.hoja)
+    
+    def copiarCeldas(self, plantillaHoja, nuevaHoja):
+        for (row, col), plantillaCelda in plantillaHoja._cells.items():
+            nuevaCelda = nuevaHoja.cell(column=col, row=row)
+            nuevaCelda._value = plantillaCelda._value
+            nuevaCelda.data_type = plantillaCelda.data_type
+        
+    def crearTabla(self, hojaPlantilla, hojaNueva):
+        rango = len(self.datos)
+        rangoTabla = f"A1:L{rango+1}"
+        tabla = Table(displayName=f"tbl{self.nombre.replace(" ", "")}", ref=rangoTabla)
+        estilo = TableStyleInfo(
+            name="TableStyleMedium3", showFirstColumn=False,
+            showLastColumn=False, showRowStripes=True, showColumnStripes=True
+        )
+        tabla.tableStyleInfo = estilo
+        
+        hojaNueva.add_table(tabla)
+        for indice, value in hojaPlantilla.column_dimensions.items():
+            hojaNueva.column_dimensions[indice].width = copy(hojaPlantilla.column_dimensions[indice].width)
