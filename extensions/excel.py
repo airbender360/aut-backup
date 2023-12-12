@@ -15,20 +15,25 @@ class Hoja:
             self.hoja = self.libro.create_sheet(self.nombre)
         
     def crearRegistro(self):
-        hoja = self.hoja
-        for indice, registro in enumerate(self.datos):
-            hoja['A' + str(indice+2)] = self.nombre
-            hoja['B' + str(indice+2)] = registro['YouTubeName']
-            hoja['C' + str(indice+2)] = registro['UploadDate']
-            hoja['D' + str(indice+2)] = registro['Duration']
-            hoja['E' + str(indice+2)] = registro['FileSize']
-            hoja['F' + str(indice+2)] = registro['ImageHeight']
-            hoja['G' + str(indice+2)] = registro['FileTypeExtension']
-            hoja['H' + str(indice+2)] = 'Santiago Sánchez'
-            hoja['I' + str(indice+2)] = registro['FileCreateDate']
-            
-        self.libro.save(self.ruta)
-        self.hoja = hoja
+        try:
+            hoja = self.hoja
+            for indice, registro in enumerate(self.datos):
+                hoja['A' + str(indice+2)] = self.nombre
+                hoja['B' + str(indice+2)] = registro['YouTubeName']
+                hoja['C' + str(indice+2)] = registro['UploadDate']
+                hoja['D' + str(indice+2)] = registro['Duration']
+                hoja['E' + str(indice+2)] = registro['FileSize']
+                hoja['F' + str(indice+2)] = registro['ImageHeight']
+                hoja['G' + str(indice+2)] = registro['FileTypeExtension']
+                hoja['H' + str(indice+2)] = 'Santiago Sánchez'
+                hoja['I' + str(indice+2)] = registro['FileCreateDate']
+                
+            self.libro.save(self.ruta)
+            self.hoja = hoja
+        except Exception as e: 
+            print(f'Error: {e}')
+        finally:
+            print('6. Documentación exitosa (Excel)')
         
     def formatearHoja(self):
         self.copiarCeldas(self.hojaPlantilla, self.hoja) 

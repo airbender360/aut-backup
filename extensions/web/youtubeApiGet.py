@@ -2,7 +2,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 class YoutubeApiGet:
-    apikey = 'AIzaSyAxtPrNEo4n5S9qvOWs8CLid2UbRDVZQu0'
+    apikey = ''
     
     def __init__(self, id):
         global youtube

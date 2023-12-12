@@ -22,7 +22,7 @@ class Folder:
         except Exception as e:
             print(f'Error: {e}')
         finally:
-            print('5. Extracción exitosa (metadatos)')
+            print('4. Extracción exitosa (Metadatos)')
             return rutaArchivosMp4, metadatos
             
     

@@ -21,7 +21,7 @@ class Script:
         except Exception as e:
             print(f"Error: {e}")
         finally:
-            print("4. Integración Exitosa (metadatos + API)")
+            print("5. Integración exitosa (Metadatos + API)")
             self.metadatos = metadatos
             self.rutaArchivos = dict(zip(list(videos), self.rutaArchivos))
             
