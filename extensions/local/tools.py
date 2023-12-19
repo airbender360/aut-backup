@@ -5,7 +5,7 @@ import glob
 import re
 
 class Tools:
-    etiquetas = ['FileName', 'Duration', 'FileSize', 'ImageHeight', 'FileTypeExtension', 'FileCreateDate']
+    etiquetas = ['-FileName', '-Duration', '-FileSize', '-ImageHeight', '-FileTypeExtension', '-FileCreateDate']
 
     def crearCarpeta(self, ruta, nombre):
         rutaCarpeta = os.path.join(ruta, nombre)
@@ -21,11 +21,7 @@ class Tools:
         return rutaArchivosMp4
     
     def exiftool(self, archivos):
-        parametros = []
-        ubicaciones = []
-        parametros.extend('-{}'.format(etiqueta) for etiqueta in Tools.etiquetas)
-        ubicaciones.extend('{}'.format(archivo) for archivo in archivos)
-        comando = ["exiftool", *parametros, "-json", *ubicaciones]
+        comando = ["exiftool", *Tools.etiquetas, "-json", *archivos]
         proceso = subprocess.run(comando, capture_output=True, text=True, shell=True)
         
         if proceso.returncode != 0:
@@ -34,7 +30,7 @@ class Tools:
         
         resultado = proceso.stdout
         metadatos = json.loads(resultado)
-        return metadatos  # Como acceder a la lista? acceso = metadata[registro]['atributo']
+        return metadatos  # Como acceder a la lista? acceso = metadatos[registro]['atributo']
     
     def formatearMetadatos(self, metadatos):
         regex = r'(\d+):(\d+):(\d+) (\d+):(\d+):(\d+)-\d+:\d+'

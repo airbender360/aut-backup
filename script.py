@@ -31,7 +31,7 @@ class Script:
         self.hoja.crearRegistro()
         
     def main(self):
-        self.playlist.videosApiObtener()
+        self.playlist.datosVideos()
         self.folder.descargarVideos(self.ruta, self.linkPlaylist)
         self.rutaArchivos, self.metadatos = self.folder.obtenerMetadatos()
 

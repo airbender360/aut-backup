@@ -20,7 +20,11 @@ class Playlist():
                 if coincidencia2:
                     hora = list(coincidencia2.groups())
                     gmt = int(hora[0])
-                    fechaSeparada[3] = f"{gmt-5}:{hora[1]}:{hora[2]}"
+                    zona = 5
+                    if gmt < zona:
+                        gmt = gmt + 24
+                        fechaSeparada[2] = str(int(fechaSeparada[2])-1)
+                    fechaSeparada[3] = f"{gmt-zona}:{hora[1]}:{hora[2]}"
                 else:
                     print('Problema al formatear la hora')
                 fechasDeSubida.append(f"{fechaSeparada[2]}/{fechaSeparada[1]}/{fechaSeparada[0]} {fechaSeparada[3]}")
@@ -28,7 +32,7 @@ class Playlist():
                 print("Problema al formatear la fecha")
         return fechasDeSubida
                 
-    def videosApiObtener(self):
+    def datosVideos(self):
         try:
             fechasOrdenadas = self.ordenarFechasDeSubida(self.fechas)
             videos = dict(zip(self.nombres, fechasOrdenadas))

@@ -37,15 +37,18 @@ class Hoja:
         
     def formatearHoja(self):
         self.copiarCeldas(self.hojaPlantilla, self.hoja) 
-        self.crearTabla(self.hojaPlantilla, self.hoja)
+        self.crearTabla(self.hoja)
     
     def copiarCeldas(self, plantillaHoja, nuevaHoja):
         for (row, col), plantillaCelda in plantillaHoja._cells.items():
             nuevaCelda = nuevaHoja.cell(column=col, row=row)
             nuevaCelda._value = plantillaCelda._value
             nuevaCelda.data_type = plantillaCelda.data_type
+            
+        for indice, value in plantillaHoja.column_dimensions.items():
+            nuevaHoja.column_dimensions[indice].width = copy(plantillaHoja.column_dimensions[indice].width)
         
-    def crearTabla(self, hojaPlantilla, hojaNueva):
+    def crearTabla(self, hojaNueva):
         rango = len(self.datos)
         rangoTabla = f"A1:L{rango+1}"
         tabla = Table(displayName=f"tbl{self.nombre.replace(" ", "")}", ref=rangoTabla)
@@ -54,7 +57,4 @@ class Hoja:
             showLastColumn=False, showRowStripes=True, showColumnStripes=True
         )
         tabla.tableStyleInfo = estilo
-        
         hojaNueva.add_table(tabla)
-        for indice, value in hojaPlantilla.column_dimensions.items():
-            hojaNueva.column_dimensions[indice].width = copy(hojaPlantilla.column_dimensions[indice].width)
