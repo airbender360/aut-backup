@@ -10,21 +10,20 @@ class Folder:
             self.rutaCarpeta = self.tools.crearCarpeta(ruta, self.nombreCarpeta)
         except Exception as e:
             print(f'Error: {e}')
-        finally:
+        else:
             print('1. Creación exitosa (Carpeta)')
-        
         
     def obtenerMetadatos(self):
         try:
-            rutaArchivosMp4 = self.tools.ubicarArchivosMp4(self.rutaCarpeta)
-            metadatos = self.tools.exiftool(rutaArchivosMp4)
+
+            metadatos = self.tools.exiftool(self.rutaCarpeta)
             metadatos = self.tools.formatearMetadatos(metadatos)
         except Exception as e:
             print(f'Error: {e}')
-        finally:
+        else:
             print('4. Extracción exitosa (Metadatos)')
-            return rutaArchivosMp4, metadatos
-            
+        finally:
+            return metadatos
     
     def descargarVideos(self, ruta, link):
         try:
@@ -33,5 +32,5 @@ class Folder:
             self.tools.ytdlp(argumento)
         except Exception as e:
             print(f'Error: {e}')
-        finally:
+        else:
             print('3. Descarga exitosa (Playlist)')

@@ -21,9 +21,29 @@ class Playlist():
                     hora = list(coincidencia2.groups())
                     gmt = int(hora[0])
                     zona = 5
+                    flag = 0
                     if gmt < zona:
                         gmt = gmt + 24
-                        fechaSeparada[2] = str(int(fechaSeparada[2])-1)
+                        if fechaSeparada[2] == '01':
+                            if fechaSeparada[1] in ['01', '03', '05', '07', '08', '10', '12']:
+                                fechaSeparada[2] = '31'
+                                if fechaSeparada[1] == '01':
+                                    fechaSeparada[1] = '12'
+                                    flag = 1
+                            elif fechaSeparada[1] in ['04', '06', '09', '11']:
+                                fechaSeparada[2] = '30'
+                            elif fechaSeparada[1] == '02':
+                                if (int(fechaSeparada[0]) % 4 == 0 and int(fechaSeparada[0]) % 100 != 0) or (int(fechaSeparada[0]) % 400 == 0):
+                                    fechaSeparada[2] = '29'
+                                else:
+                                    fechaSeparada[2] = '28'
+                            if flag != 1:
+                                if int(fechaSeparada[1]) < 10:
+                                    fechaSeparada[1] = f"0{str(int(fechaSeparada[1])-1)}"
+                                else:
+                                    fechaSeparada[1] = str(int(fechaSeparada[1])-1)
+                        else:
+                            fechaSeparada[2] = str(int(fechaSeparada[2])-1)
                     fechaSeparada[3] = f"{gmt-zona}:{hora[1]}:{hora[2]}"
                 else:
                     print('Problema al formatear la hora')

@@ -12,18 +12,10 @@ class Tools:
         os.mkdir(rutaCarpeta)
         return rutaCarpeta
     
-    def ubicarArchivosMp4(self, ruta):
-        rutaArchivosMp4 = glob.glob(os.path.join(ruta, '*.mp4'))
-        rutaArchivosMp4 = sorted(rutaArchivosMp4, key=os.path.getctime)
-        
-        if len(rutaArchivosMp4) == 0:
-            print('Error: no se encontraron archivos .mp4 en la carpeta destino.')
-        return rutaArchivosMp4
-    
-    def exiftool(self, archivos):
-        comando = ["exiftool", *Tools.etiquetas, "-json", *archivos]
+    def exiftool(self, ruta):
+        comando = ["exiftool", *Tools.etiquetas, "-json", ruta]
         proceso = subprocess.run(comando, capture_output=True, text=True, shell=True)
-        
+
         if proceso.returncode != 0:
             print(f"Error: no se han podido extraer los metadatos.")
             return None

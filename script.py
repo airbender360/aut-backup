@@ -23,7 +23,6 @@ class Script:
         finally:
             print("5. Integración exitosa (Metadatos + API)")
             self.metadatos = metadatos
-            self.rutaArchivos = dict(zip(list(videos), self.rutaArchivos))
             
     def documentarExcel(self):
         self.hoja = Hoja(self.rutaExcel, self.playlist.nombrePlaylist, self.metadatos)
@@ -33,7 +32,7 @@ class Script:
     def main(self):
         self.playlist.datosVideos()
         self.folder.descargarVideos(self.ruta, self.linkPlaylist)
-        self.rutaArchivos, self.metadatos = self.folder.obtenerMetadatos()
+        self.metadatos = self.folder.obtenerMetadatos()
 
         self.webEnMetadata()
         self.documentarExcel()
