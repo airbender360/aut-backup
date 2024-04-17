@@ -8,6 +8,7 @@ class Folder:
             self.linkPlaylist = link
             self.nombreCarpeta = nombre
             self.rutaCarpeta = self.tools.crearCarpeta(ruta, self.nombreCarpeta)
+            
         except Exception as e:
             print(f'Error: {e}')
         else:
@@ -15,7 +16,6 @@ class Folder:
         
     def obtenerMetadatos(self):
         try:
-
             metadatos = self.tools.exiftool(self.rutaCarpeta)
             metadatos = self.tools.formatearMetadatos(metadatos)
         except Exception as e:
@@ -25,11 +25,14 @@ class Folder:
         finally:
             return metadatos
     
-    def descargarVideos(self, ruta, link):
+    def descargarVideos(self, ruta, link, flag):
         try:
-            ruta = r'"{}\{}\%(title)s.%(ext)s"'.format(ruta, self.nombreCarpeta)
-            argumento = f'-o {ruta} {link}'
-            self.tools.ytdlp(argumento)
+            if flag:
+                ruta = r'"{}\{}\%(title)s.%(ext)s"'.format(ruta, self.nombreCarpeta)
+                argumento = f'-o {ruta} {link}'
+                self.tools.ytdlp(argumento)
+            else:
+                print('Sin descarga de Playlist.')
         except Exception as e:
             print(f'Error: {e}')
         else:

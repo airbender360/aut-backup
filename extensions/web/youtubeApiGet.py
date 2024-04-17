@@ -2,7 +2,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 class YoutubeApiGet:
-    apikey = ''
+    apikey = 'AIzaSyAQHm8oLKXDbFfv6ox45Vaqzp-pKn4zcQc'
     
     def __init__(self, id):
         global youtube
@@ -21,7 +21,15 @@ class YoutubeApiGet:
             maxResults=120
         ).execute()
         
-        fechas = [elemento['contentDetails']['videoPublishedAt'] for elemento in datosVideos['items']]
-        nombres = [elemento['snippet']['title'] for elemento in datosVideos['items']]
+        fechas = []
+        nombres = []
+        for elemento in datosVideos['items']:
+            try:
+                fechaPub = elemento['contentDetails']['videoPublishedAt']
+                nombreVid = elemento['snippet']['title']
+                nombres.append(nombreVid)
+                fechas.append(fechaPub)
+            except KeyError:
+                continue
 
         return nombrePlaylist, fechas, nombres

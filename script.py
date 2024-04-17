@@ -15,9 +15,11 @@ class Script:
         videos = self.playlist.videos
         metadatos = self.metadatos
         try:
-            for indice, (nombreVideo, tiempoVideo) in enumerate(videos.items()):
-                        metadatos[indice]['YouTubeName'] = nombreVideo
-                        metadatos[indice]['UploadDate'] = tiempoVideo
+            for video in videos.items():
+                for registro in metadatos:
+                    if video[0] + '.mp4' == registro['FileName']:
+                        registro['YouTubeName'] = video[0]
+                        registro['UploadDate'] = video[1]
         except Exception as e:
             print(f"Error: {e}")
         finally:
@@ -28,11 +30,14 @@ class Script:
         self.hoja = Hoja(self.rutaExcel, self.playlist.nombrePlaylist, self.metadatos)
         self.hoja.formatearHoja()
         self.hoja.crearRegistro()
-        
-    def main(self):
-        self.playlist.datosVideos()
-        self.folder.descargarVideos(self.ruta, self.linkPlaylist)
-        self.metadatos = self.folder.obtenerMetadatos()
 
+# ----------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
+        
+    def main(self, flag):
+        self.playlist.datosVideos()
+        self.folder.descargarVideos(self.ruta, self.linkPlaylist, flag)
+        self.metadatos = self.folder.obtenerMetadatos()
+        
         self.webEnMetadata()
         self.documentarExcel()

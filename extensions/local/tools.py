@@ -1,16 +1,20 @@
 import subprocess
 import json
 import os
-import glob
 import re
+import ftfy
 
 class Tools:
     etiquetas = ['-FileName', '-Duration', '-FileSize', '-ImageHeight', '-FileTypeExtension', '-FileCreateDate']
 
     def crearCarpeta(self, ruta, nombre):
         rutaCarpeta = os.path.join(ruta, nombre)
-        os.mkdir(rutaCarpeta)
-        return rutaCarpeta
+        try:
+            os.mkdir(rutaCarpeta)
+        except FileExistsError:
+            pass
+        finally:
+            return rutaCarpeta
     
     def exiftool(self, ruta):
         comando = ["exiftool", *Tools.etiquetas, "-json", ruta]
@@ -28,8 +32,12 @@ class Tools:
         regex = r'(\d+):(\d+):(\d+) (\d+):(\d+):(\d+)-\d+:\d+'
         
         for registro in metadatos:
-            coincidencia = re.match(regex, registro['FileCreateDate'])
-            registro['FileCreateDate'] = f'{coincidencia[3]}/{coincidencia[2]}/{coincidencia[1]} {coincidencia[4]}:{coincidencia[5]}:{coincidencia[6]}'
+            try:
+                coincidencia = re.match(regex, registro['FileCreateDate'])
+                registro['FileCreateDate'] = f'{coincidencia[3]}/{coincidencia[2]}/{coincidencia[1]} {coincidencia[4]}:{coincidencia[5]}:{coincidencia[6]}'
+                registro['FileName'] = ftfy.fix_text(registro['FileName'])
+            except Exception as e:
+                print(f'Error {e} en FileName: {registro['FileName']}')
         return metadatos
     
     def ytdlp(self, argumento):

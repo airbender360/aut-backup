@@ -7,4 +7,9 @@ rutaCarpeta = r'D:\videos'  #Ruta de la carpeta 'main' donde se guardarán las s
 rutaExcel = r'D:\aut-backup\tools' #Ruta 'main' del archivo de Excel (ajustar nombre en clase excel/self.ruta)
 
 script = Script(linkPlaylist, rutaCarpeta, rutaExcel)
-script.main()
+script.main(0) #0 Como argumento para omitir la descarga de los videos
+
+# if error, use in console to download manually then document manually, replace "directory" and "playlist-link" below: 
+# yt-dlp -o "directory\%(title)s.%(ext)s" playlist-link
+# example:
+# yt-dlp -o "D:\videos\%(title)s.%(ext)s" https://www.youtube.com/watch?v=oH0K-5g1eK4
