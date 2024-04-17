@@ -16,10 +16,23 @@ class Script:
         metadatos = self.metadatos
         try:
             for video in videos.items():
+                count = 0
                 for registro in metadatos:
-                    if video[0] + '.mp4' == registro['FileName']:
+                    test = video[0] + '.mp4'
+                    test2 = registro['FileName']
+                    if  test == test2:
                         registro['YouTubeName'] = video[0]
                         registro['UploadDate'] = video[1]
+                        break
+                    else:
+                        count += 1
+                if count == len(videos):
+                    for registro in metadatos:
+                        test2 = registro['FileName']
+                        if  self.folder.verificarCadena(test, test2):
+                            registro['YouTubeName'] = video[0]
+                            registro['UploadDate'] = video[1]
+                            break
         except Exception as e:
             print(f"Error: {e}")
         finally:

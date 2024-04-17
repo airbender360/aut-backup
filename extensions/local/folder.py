@@ -37,3 +37,6 @@ class Folder:
             print(f'Error: {e}')
         else:
             print('3. Descarga exitosa (Playlist)')
+    
+    def verificarCadena(self, a, b):
+        return self.tools.verificarCoincidencia(a,b)

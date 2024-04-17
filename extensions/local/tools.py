@@ -3,6 +3,7 @@ import json
 import os
 import re
 import ftfy
+import difflib
 
 class Tools:
     etiquetas = ['-FileName', '-Duration', '-FileSize', '-ImageHeight', '-FileTypeExtension', '-FileCreateDate']
@@ -38,6 +39,7 @@ class Tools:
                 registro['FileName'] = ftfy.fix_text(registro['FileName'])
             except Exception as e:
                 print(f'Error {e} en FileName: {registro['FileName']}')
+                
         return metadatos
     
     def ytdlp(self, argumento):
@@ -45,3 +47,12 @@ class Tools:
         proceso = subprocess.run(comando, stderr=subprocess.PIPE, text=True)
         if proceso.returncode != 0:
             print(f'Error: {proceso.stderr}')
+
+    def verificarCoincidencia(self, a, b):
+        umbral=0.975
+        similitud = difflib.SequenceMatcher(None, a, b).ratio()
+
+        if similitud >= umbral or a == b:
+            return True
+        else:
+            return False
