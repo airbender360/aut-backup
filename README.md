@@ -1,6 +1,6 @@
 GIT backup CID.
 
-Script para documentar playlist de YouTube en excel.
+Script para documentar playlists de YouTube en excel.
 
 - Clona el proyecto.
 - Corre el comando ```pip install -r requirements.txt``` para instalar las dependencias.
