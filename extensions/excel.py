@@ -25,7 +25,7 @@ class Hoja:
                 hoja['E' + str(indice+2)] = registro['FileSize']
                 hoja['F' + str(indice+2)] = registro['ImageHeight']
                 hoja['G' + str(indice+2)] = registro['FileTypeExtension']
-                hoja['H' + str(indice+2)] = 'Santiago Sánchez'
+                hoja['H' + str(indice+2)] = ''
                 hoja['I' + str(indice+2)] = registro['FileCreateDate']
                 
             self.libro.save(self.ruta)
