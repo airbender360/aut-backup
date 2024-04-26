@@ -4,7 +4,7 @@ from script import Script
 linkPlaylist = r'https://www.youtube.com/playlist?list=PLM5IaC7oTKAWcX79aQjjbTu4HMU14SqjD'
 #Se cambia solo una vez
 rutaCarpeta = r'D:\videos'  #Ruta de la carpeta 'main' donde se guardarán las subcarpetas
-rutaExcel = r'D:\aut-backup\tools' #Ruta 'main' del archivo de Excel (ajustar nombre en clase excel/self.ruta)
+rutaExcel = r'D:\aut-backup\tools' #Ruta 'main' del archivo de Excel (ajustar nombre en excel/Hoja/self.ruta)
 
 script = Script(linkPlaylist, rutaCarpeta, rutaExcel)
 script.main(1) #0 Como argumento para omitir la descarga de los videos
