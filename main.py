@@ -17,7 +17,7 @@ script.main(1) #0 Como argumento para omitir la descarga de los videos
 
 
 #---------------------------------------------------------------------------------------------------------------------
-# if error, use in console to download manually then document manually, replace "directory" and "playlist-link" below:
+# if error, try adjusting "umbral" in Tools class or use this in console to download manually, then document manually, replace "directory" and "playlist-link" below:
 # yt-dlp -o "directory\%(title)s.%(ext)s" playlist-link
 # example:
 # yt-dlp -o "D:\videos\test\%(title)s.%(ext)s" https://www.youtube.com/playlist?list=PLM5IaC7oTKAWcX79aQjjbTu4HMU14SqjD
