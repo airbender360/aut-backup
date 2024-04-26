@@ -7,4 +7,4 @@ Script para documentar playlists de YouTube en excel.
 
 Esta es la rama ```main``` solo cuenta con las dependencias básicas y un script para extraer los metadatos con exiftool.
 
-*Rama ```excel``` - cuanta con el script completo.
+*Rama ```excel``` - cuenta con el script completo.
