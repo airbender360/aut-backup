@@ -49,7 +49,7 @@ class Tools:
             print(f'Error: {proceso.stderr}')
 
     def verificarCoincidencia(self, a, b):
-        umbral = 0.9
+        umbral = 0.975
         similitud = difflib.SequenceMatcher(None, a, b).ratio()
 
         if similitud >= umbral or a == b:
