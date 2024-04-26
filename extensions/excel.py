@@ -10,7 +10,7 @@ class Hoja:
         self.libro = openpyxl.load_workbook(self.ruta)
         self.hojaPlantilla = openpyxl.load_workbook(ruta + r'\plantilla.xlsx').active
         if self.nombre in self.libro.sheetnames:
-            print('Error: La hoja ' + self.nombre + " ya existe")
+            print('Error: La hoja ' + self.nombre + ' ya existe')
         else:
             self.hoja = self.libro.create_sheet(self.nombre)
         
@@ -50,8 +50,8 @@ class Hoja:
         
     def crearTabla(self, hojaNueva):
         rango = len(self.datos)
-        rangoTabla = f"A1:L{rango+1}"
-        tabla = Table(displayName=f"tbl{self.nombre.replace(" ", "")}", ref=rangoTabla)
+        rangoTabla = f'A1:L{rango+1}'
+        tabla = Table(displayName=f'tbl{self.nombre.replace(' ', '')}', ref=rangoTabla)
         estilo = TableStyleInfo(
             name="TableStyleMedium3", showFirstColumn=False,
             showLastColumn=False, showRowStripes=True, showColumnStripes=True

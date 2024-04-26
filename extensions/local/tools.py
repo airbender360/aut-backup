@@ -18,7 +18,7 @@ class Tools:
             return rutaCarpeta
     
     def exiftool(self, ruta):
-        comando = ["exiftool", *Tools.etiquetas, "-json", ruta]
+        comando = ['exiftool', *Tools.etiquetas, '-json', ruta]
         proceso = subprocess.run(comando, capture_output=True, text=True, shell=True)
 
         if proceso.returncode != 0:
@@ -39,7 +39,7 @@ class Tools:
                 registro['FileName'] = ftfy.fix_text(registro['FileName'])
             except Exception as e:
                 print(f'Error {e} en FileName: {registro['FileName']}')
-                
+
         return metadatos
     
     def ytdlp(self, argumento):
@@ -49,7 +49,7 @@ class Tools:
             print(f'Error: {proceso.stderr}')
 
     def verificarCoincidencia(self, a, b):
-        umbral=0.975
+        umbral = 0.9
         similitud = difflib.SequenceMatcher(None, a, b).ratio()
 
         if similitud >= umbral or a == b:

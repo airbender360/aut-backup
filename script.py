@@ -18,9 +18,9 @@ class Script:
             for video in videos.items():
                 count = 0
                 for registro in metadatos:
-                    test = video[0] + '.mp4'
-                    test2 = registro['FileName']
-                    if  test == test2:
+                    videoName = video[0] + '.mp4'
+                    registroName = registro['FileName']
+                    if  videoName == registroName:
                         registro['YouTubeName'] = video[0]
                         registro['UploadDate'] = video[1]
                         break
@@ -28,8 +28,8 @@ class Script:
                         count += 1
                 if count == len(videos):
                     for registro in metadatos:
-                        test2 = registro['FileName']
-                        if  self.folder.verificarCadena(test, test2):
+                        registroName = registro['FileName']
+                        if  self.folder.verificarCadena(videoName, registroName):
                             registro['YouTubeName'] = video[0]
                             registro['UploadDate'] = video[1]
                             break
